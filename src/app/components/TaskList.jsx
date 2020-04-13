@@ -7,7 +7,7 @@ export const TaskList = ({tasks, name, id, createNewTask}) => (
     <h2>{name}</h2>
     {tasks.map(task => (
       <div key={task.id}>
-        {task.name}
+        {task.name} {task.id}
       </div>
     ))}
     <button onClick={() => createNewTask(id)}> ADD TASK</button>
