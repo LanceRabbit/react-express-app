@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Provider } from 'react-redux'
 import { store } from '../store'
 import { ConnectedDashBoard } from './Dashboard'
@@ -6,6 +6,16 @@ import { Router, Route } from 'react-router-dom';
 import { history } from '../store/history'
 import { ConnectedNavigation } from './Navigation'
 import { ConnectedTaskDetail } from './TaskDetail'
+import { Redirect } from 'react-router'
+
+const RouterGuard = Component => ({match}) => {
+  console.info("RouterGuard:", match)
+  if(!store.getState().session.authenticated) {
+    return <Redirect to="/" />
+  } else {
+    return <Component match={match}/>
+  }
+}
 
 export const Main = () => (
   <Router history={history}>
@@ -15,12 +25,12 @@ export const Main = () => (
         <Route
           exact
           path="/dashboard"
-          render={() => (<ConnectedDashBoard/>)}
+          render={RouterGuard(ConnectedDashBoard)}
         />
         <Route
           exact
           path="/task/:id"
-          render={({match}) => (<ConnectedTaskDetail match={match}/>)}
+          render={RouterGuard(ConnectedTaskDetail)}
         />
       </div>
     </Provider>

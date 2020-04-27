@@ -9,6 +9,9 @@ import * as mutations from './mutations'
 
 export const store = createStore(
   combineReducers({
+    session(session = defaultState.session){
+      return session;
+    },
     tasks(tasks = defaultState.tasks, action){
       console.log("combineReducers");
       switch(action.type){
