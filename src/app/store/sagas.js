@@ -26,3 +26,18 @@ export function* taskCreationSaga(){
       console.info("Got response", res);
   }
 }
+
+export function* userAuthenticateSage(){
+  while(true) {
+    const {username, password} = yield take(mutations.REQUEST_AUTHENTICATE_USER)
+    try {
+      const { data } = axios.post(url + `/authenticate`, {username, passowrd});
+      if(!data) {
+        throw new Error();
+      }
+    } catch (error) {
+      console.log("can't authenticate")
+      yield put(mutations.processAuthenticateUser(mutations.NOT_AUTHENTICATED));
+    }
+  }
+}
